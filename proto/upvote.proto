@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "/pb";
+
+service UpvoteService {
+  rpc ListBooks(ListBooksRequest) returns (stream ListBooksResponse) {}
+  rpc Upvote(VoteRequest) returns (VoteResponse) {}
+}
+
+message VoteRequest { string id = 1; }
+message VoteResponse {
+  string id = 1;
+  string title = 2;
+  string author = 3;
+  int64 likes = 4;
+}
+
+message ListBooksRequest {}
+message ListBooksResponse {
+  string id = 1;
+  string title = 2;
+  string author = 3;
+  int64 likes = 4;
+}
