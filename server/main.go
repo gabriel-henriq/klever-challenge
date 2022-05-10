@@ -36,9 +36,9 @@ func main() {
 
 	bookDb, mongoCtx = db.Connect()
 
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", "50051"))
+	listener, err := net.Listen("tcp", ":50051")
 	if err != nil {
-		log.Fatalf("Could not connect on port :%s: %s", "50051", err.Error())
+		log.Fatalf("Could not connect on port :50051: %s", err.Error())
 	}
 
 	grpcServer := grpc.NewServer()
@@ -57,7 +57,7 @@ func main() {
 			log.Fatalf("Failed to serve: %v", err)
 		}
 	}()
-	fmt.Printf("Server started on port :%s\n", "50051")
+	fmt.Printf("Server started on port :50051\n")
 
 	// Right way to stop the server using a SHUTDOWN HOOK
 	// Create a channel to receive OS signals
