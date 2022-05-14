@@ -17,7 +17,7 @@ message VoteResponse {
   int64 likes = 4;
 }
 
-message ListBooksRequest {}
+message ListBooksRequest { string title = 1; }
 message ListBooksResponse {
   string id = 1;
   string title = 2;
