@@ -30,10 +30,6 @@ Assuming that you've already mongodb installed and a gRPC client server for meth
 - [Postman gRPC Client](https://blog.postman.com/postman-now-supports-grpc/)
 - [MongoDb Installation Guide](https://www.mongodb.com/docs/guides/server/install/)
 
-Also you'll need `protoc` installed in your OS.
-
-- [Protoc Installation Guide](https://grpc.io/docs/protoc-installation/)
-
 Clone the project
 
 ```bash
@@ -46,31 +42,9 @@ Go to the project directory
   cd klever-challenge
 ```
 
-Install Go Mod
-
-```bash
-  go mod init github.com/gabriel-henriq/klever-challenge/api
-```
-
-Gen Proto files
-
-```bash
-  protoc --go-grpc_out=. --proto_path= proto/upvote.proto
-```
-
-```bash
-  protoc --go_out=. --proto_path= proto/upvote.proto
-```
-
-Install Dependencies
-
-```bash
-  go mod tidy
-```
-
 Run Server Service
 
-```bash
+```golang
   go run ./server/main.go
 ```
 
