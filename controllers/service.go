@@ -6,8 +6,8 @@ import (
 	"log"
 	"sync"
 
+	pb "github.com/gabriel-henriq/klever-challenge/api/gen/proto/go/proto"
 	"github.com/gabriel-henriq/klever-challenge/api/models"
-	"github.com/gabriel-henriq/klever-challenge/api/pb"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
