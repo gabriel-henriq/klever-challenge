@@ -10,7 +10,7 @@ import (
 
 	"github.com/gabriel-henriq/klever-challenge/api/controllers"
 	"github.com/gabriel-henriq/klever-challenge/api/db"
-	"github.com/gabriel-henriq/klever-challenge/api/pb"
+	pb "github.com/gabriel-henriq/klever-challenge/api/gen/proto/upvote/v1"
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"google.golang.org/grpc"
