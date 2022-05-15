@@ -6,7 +6,7 @@ import (
 	"log"
 	"sync"
 
-	pb "github.com/gabriel-henriq/klever-challenge/api/gen/proto/go/proto"
+	pb "github.com/gabriel-henriq/klever-challenge/api/gen/proto/upvote/v1"
 	"github.com/gabriel-henriq/klever-challenge/api/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -22,7 +22,7 @@ type UpvoteServiceServer struct {
 	pb.UnimplementedUpvoteServiceServer
 }
 
-func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.VoteRequest) (*pb.VoteResponse, error) {
+func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.UpvoteRequest) (*pb.UpvoteResponse, error) {
 
 	id, err := primitive.ObjectIDFromHex(req.Id)
 	if err != nil {
@@ -53,7 +53,7 @@ func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.VoteRequest) (
 		)
 	}
 
-	return &pb.VoteResponse{
+	return &pb.UpvoteResponse{
 		Id:     data.ID.Hex(),
 		Title:  data.Title,
 		Author: data.Author,

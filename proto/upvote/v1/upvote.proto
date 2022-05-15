@@ -1,16 +1,16 @@
 syntax = "proto3";
 
-package pb;
+package upvote.v1;
 
-option go_package = "/pb";
+option go_package = "/upvotev1";
 
 service UpvoteService {
   rpc ListBooks(ListBooksRequest) returns (stream ListBooksResponse) {}
-  rpc Upvote(VoteRequest) returns (VoteResponse) {}
+  rpc Upvote(UpvoteRequest) returns (UpvoteResponse) {}
 }
 
-message VoteRequest { string id = 1; }
-message VoteResponse {
+message UpvoteRequest { string id = 1; }
+message UpvoteResponse {
   string id = 1;
   string title = 2;
   string author = 3;

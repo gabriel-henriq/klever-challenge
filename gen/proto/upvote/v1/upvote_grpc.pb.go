@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             (unknown)
-// source: proto/upvote.proto
+// source: proto/upvote/v1/upvote.proto
 
-package pb
+package upvotev1
 
 import (
 	context "context"
@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UpvoteServiceClient interface {
 	ListBooks(ctx context.Context, in *ListBooksRequest, opts ...grpc.CallOption) (UpvoteService_ListBooksClient, error)
-	Upvote(ctx context.Context, in *VoteRequest, opts ...grpc.CallOption) (*VoteResponse, error)
+	Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error)
 }
 
 type upvoteServiceClient struct {
@@ -35,7 +35,7 @@ func NewUpvoteServiceClient(cc grpc.ClientConnInterface) UpvoteServiceClient {
 }
 
 func (c *upvoteServiceClient) ListBooks(ctx context.Context, in *ListBooksRequest, opts ...grpc.CallOption) (UpvoteService_ListBooksClient, error) {
-	stream, err := c.cc.NewStream(ctx, &UpvoteService_ServiceDesc.Streams[0], "/pb.UpvoteService/ListBooks", opts...)
+	stream, err := c.cc.NewStream(ctx, &UpvoteService_ServiceDesc.Streams[0], "/upvote.v1.UpvoteService/ListBooks", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,9 +66,9 @@ func (x *upvoteServiceListBooksClient) Recv() (*ListBooksResponse, error) {
 	return m, nil
 }
 
-func (c *upvoteServiceClient) Upvote(ctx context.Context, in *VoteRequest, opts ...grpc.CallOption) (*VoteResponse, error) {
-	out := new(VoteResponse)
-	err := c.cc.Invoke(ctx, "/pb.UpvoteService/Upvote", in, out, opts...)
+func (c *upvoteServiceClient) Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error) {
+	out := new(UpvoteResponse)
+	err := c.cc.Invoke(ctx, "/upvote.v1.UpvoteService/Upvote", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func (c *upvoteServiceClient) Upvote(ctx context.Context, in *VoteRequest, opts 
 // for forward compatibility
 type UpvoteServiceServer interface {
 	ListBooks(*ListBooksRequest, UpvoteService_ListBooksServer) error
-	Upvote(context.Context, *VoteRequest) (*VoteResponse, error)
+	Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error)
 }
 
 // UnimplementedUpvoteServiceServer should be embedded to have forward compatible implementations.
@@ -90,7 +90,7 @@ type UnimplementedUpvoteServiceServer struct {
 func (UnimplementedUpvoteServiceServer) ListBooks(*ListBooksRequest, UpvoteService_ListBooksServer) error {
 	return status.Errorf(codes.Unimplemented, "method ListBooks not implemented")
 }
-func (UnimplementedUpvoteServiceServer) Upvote(context.Context, *VoteRequest) (*VoteResponse, error) {
+func (UnimplementedUpvoteServiceServer) Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upvote not implemented")
 }
 
@@ -127,7 +127,7 @@ func (x *upvoteServiceListBooksServer) Send(m *ListBooksResponse) error {
 }
 
 func _UpvoteService_Upvote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VoteRequest)
+	in := new(UpvoteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -136,10 +136,10 @@ func _UpvoteService_Upvote_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.UpvoteService/Upvote",
+		FullMethod: "/upvote.v1.UpvoteService/Upvote",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UpvoteServiceServer).Upvote(ctx, req.(*VoteRequest))
+		return srv.(UpvoteServiceServer).Upvote(ctx, req.(*UpvoteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -148,7 +148,7 @@ func _UpvoteService_Upvote_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UpvoteService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.UpvoteService",
+	ServiceName: "upvote.v1.UpvoteService",
 	HandlerType: (*UpvoteServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -163,5 +163,5 @@ var UpvoteService_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "proto/upvote.proto",
+	Metadata: "proto/upvote/v1/upvote.proto",
 }
