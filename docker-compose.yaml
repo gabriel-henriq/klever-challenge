@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  go-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: upvote/go-server
+    ports:
+      - "50051:50051"
+    depends_on:
+      - mongodb
+
+  envoy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: upvote/envoy
+    ports:
+      - "8080:8080"
+    links:
+      - go-server
+
+  mongodb:
+    image: mongo:latest
+    restart: always
+    container_name: mongodb
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    command: --replSet test --wiredTigerCacheSizeGB 1
+
+volumes:
+  mongodata:
+
+
