@@ -16,7 +16,7 @@ func Connect() (*mongo.Collection, context.Context) {
 	mongoCtx := context.Background()
 
 	// Create a new client and connect to the server
-	client, err := mongo.Connect(mongoCtx, options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(mongoCtx, options.Client().SetDirect(true).ApplyURI("mongodb://mongodb:27017/?connect=direct"))
 	if err != nil {
 		panic(err)
 	}
