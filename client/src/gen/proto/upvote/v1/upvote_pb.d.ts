@@ -50,46 +50,46 @@ export namespace UpvoteResponse {
   }
 }
 
-export class ListBooksRequest extends jspb.Message {
+export class WatchBookRequest extends jspb.Message {
   getTitle(): string;
-  setTitle(value: string): ListBooksRequest;
+  setTitle(value: string): WatchBookRequest;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ListBooksRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: ListBooksRequest): ListBooksRequest.AsObject;
-  static serializeBinaryToWriter(message: ListBooksRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ListBooksRequest;
-  static deserializeBinaryFromReader(message: ListBooksRequest, reader: jspb.BinaryReader): ListBooksRequest;
+  toObject(includeInstance?: boolean): WatchBookRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: WatchBookRequest): WatchBookRequest.AsObject;
+  static serializeBinaryToWriter(message: WatchBookRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): WatchBookRequest;
+  static deserializeBinaryFromReader(message: WatchBookRequest, reader: jspb.BinaryReader): WatchBookRequest;
 }
 
-export namespace ListBooksRequest {
+export namespace WatchBookRequest {
   export type AsObject = {
     title: string,
   }
 }
 
-export class ListBooksResponse extends jspb.Message {
+export class WatchBookResponse extends jspb.Message {
   getId(): string;
-  setId(value: string): ListBooksResponse;
+  setId(value: string): WatchBookResponse;
 
   getTitle(): string;
-  setTitle(value: string): ListBooksResponse;
+  setTitle(value: string): WatchBookResponse;
 
   getAuthor(): string;
-  setAuthor(value: string): ListBooksResponse;
+  setAuthor(value: string): WatchBookResponse;
 
   getLikes(): number;
-  setLikes(value: number): ListBooksResponse;
+  setLikes(value: number): WatchBookResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ListBooksResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: ListBooksResponse): ListBooksResponse.AsObject;
-  static serializeBinaryToWriter(message: ListBooksResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ListBooksResponse;
-  static deserializeBinaryFromReader(message: ListBooksResponse, reader: jspb.BinaryReader): ListBooksResponse;
+  toObject(includeInstance?: boolean): WatchBookResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: WatchBookResponse): WatchBookResponse.AsObject;
+  static serializeBinaryToWriter(message: WatchBookResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): WatchBookResponse;
+  static deserializeBinaryFromReader(message: WatchBookResponse, reader: jspb.BinaryReader): WatchBookResponse;
 }
 
-export namespace ListBooksResponse {
+export namespace WatchBookResponse {
   export type AsObject = {
     id: string,
     title: string,

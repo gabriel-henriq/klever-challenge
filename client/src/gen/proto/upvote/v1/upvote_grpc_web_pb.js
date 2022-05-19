@@ -74,56 +74,56 @@ proto.upvote.v1.UpvoteServicePromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.upvote.v1.ListBooksRequest,
- *   !proto.upvote.v1.ListBooksResponse>}
+ *   !proto.upvote.v1.WatchBookRequest,
+ *   !proto.upvote.v1.WatchBookResponse>}
  */
-const methodDescriptor_UpvoteService_ListBooks = new grpc.web.MethodDescriptor(
-  '/upvote.v1.UpvoteService/ListBooks',
+const methodDescriptor_UpvoteService_WatchBook = new grpc.web.MethodDescriptor(
+  '/upvote.v1.UpvoteService/WatchBook',
   grpc.web.MethodType.SERVER_STREAMING,
-  proto.upvote.v1.ListBooksRequest,
-  proto.upvote.v1.ListBooksResponse,
+  proto.upvote.v1.WatchBookRequest,
+  proto.upvote.v1.WatchBookResponse,
   /**
-   * @param {!proto.upvote.v1.ListBooksRequest} request
+   * @param {!proto.upvote.v1.WatchBookRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.upvote.v1.ListBooksResponse.deserializeBinary
+  proto.upvote.v1.WatchBookResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.upvote.v1.ListBooksRequest} request The request proto
+ * @param {!proto.upvote.v1.WatchBookRequest} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.upvote.v1.ListBooksResponse>}
+ * @return {!grpc.web.ClientReadableStream<!proto.upvote.v1.WatchBookResponse>}
  *     The XHR Node Readable Stream
  */
-proto.upvote.v1.UpvoteServiceClient.prototype.listBooks =
+proto.upvote.v1.UpvoteServiceClient.prototype.watchBook =
     function(request, metadata) {
   return this.client_.serverStreaming(this.hostname_ +
-      '/upvote.v1.UpvoteService/ListBooks',
+      '/upvote.v1.UpvoteService/WatchBook',
       request,
       metadata || {},
-      methodDescriptor_UpvoteService_ListBooks);
+      methodDescriptor_UpvoteService_WatchBook);
 };
 
 
 /**
- * @param {!proto.upvote.v1.ListBooksRequest} request The request proto
+ * @param {!proto.upvote.v1.WatchBookRequest} request The request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!grpc.web.ClientReadableStream<!proto.upvote.v1.ListBooksResponse>}
+ * @return {!grpc.web.ClientReadableStream<!proto.upvote.v1.WatchBookResponse>}
  *     The XHR Node Readable Stream
  */
-proto.upvote.v1.UpvoteServicePromiseClient.prototype.listBooks =
+proto.upvote.v1.UpvoteServicePromiseClient.prototype.watchBook =
     function(request, metadata) {
   return this.client_.serverStreaming(this.hostname_ +
-      '/upvote.v1.UpvoteService/ListBooks',
+      '/upvote.v1.UpvoteService/WatchBook',
       request,
       metadata || {},
-      methodDescriptor_UpvoteService_ListBooks);
+      methodDescriptor_UpvoteService_WatchBook);
 };
 
 

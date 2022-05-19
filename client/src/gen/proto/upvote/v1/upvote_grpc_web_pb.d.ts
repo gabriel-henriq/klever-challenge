@@ -8,10 +8,10 @@ export class UpvoteServiceClient {
                credentials?: null | { [index: string]: string; },
                options?: null | { [index: string]: any; });
 
-  listBooks(
-    request: proto_upvote_v1_upvote_pb.ListBooksRequest,
+  watchBook(
+    request: proto_upvote_v1_upvote_pb.WatchBookRequest,
     metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.ListBooksResponse>;
+  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.WatchBookResponse>;
 
   upvote(
     request: proto_upvote_v1_upvote_pb.UpvoteRequest,
@@ -27,10 +27,10 @@ export class UpvoteServicePromiseClient {
                credentials?: null | { [index: string]: string; },
                options?: null | { [index: string]: any; });
 
-  listBooks(
-    request: proto_upvote_v1_upvote_pb.ListBooksRequest,
+  watchBook(
+    request: proto_upvote_v1_upvote_pb.WatchBookRequest,
     metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.ListBooksResponse>;
+  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.WatchBookResponse>;
 
   upvote(
     request: proto_upvote_v1_upvote_pb.UpvoteRequest,

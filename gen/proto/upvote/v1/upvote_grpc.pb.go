@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UpvoteServiceClient interface {
-	ListBooks(ctx context.Context, in *ListBooksRequest, opts ...grpc.CallOption) (UpvoteService_ListBooksClient, error)
+	WatchBook(ctx context.Context, in *WatchBookRequest, opts ...grpc.CallOption) (UpvoteService_WatchBookClient, error)
 	Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error)
 }
 
@@ -34,12 +34,12 @@ func NewUpvoteServiceClient(cc grpc.ClientConnInterface) UpvoteServiceClient {
 	return &upvoteServiceClient{cc}
 }
 
-func (c *upvoteServiceClient) ListBooks(ctx context.Context, in *ListBooksRequest, opts ...grpc.CallOption) (UpvoteService_ListBooksClient, error) {
-	stream, err := c.cc.NewStream(ctx, &UpvoteService_ServiceDesc.Streams[0], "/upvote.v1.UpvoteService/ListBooks", opts...)
+func (c *upvoteServiceClient) WatchBook(ctx context.Context, in *WatchBookRequest, opts ...grpc.CallOption) (UpvoteService_WatchBookClient, error) {
+	stream, err := c.cc.NewStream(ctx, &UpvoteService_ServiceDesc.Streams[0], "/upvote.v1.UpvoteService/WatchBook", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &upvoteServiceListBooksClient{stream}
+	x := &upvoteServiceWatchBookClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -49,17 +49,17 @@ func (c *upvoteServiceClient) ListBooks(ctx context.Context, in *ListBooksReques
 	return x, nil
 }
 
-type UpvoteService_ListBooksClient interface {
-	Recv() (*ListBooksResponse, error)
+type UpvoteService_WatchBookClient interface {
+	Recv() (*WatchBookResponse, error)
 	grpc.ClientStream
 }
 
-type upvoteServiceListBooksClient struct {
+type upvoteServiceWatchBookClient struct {
 	grpc.ClientStream
 }
 
-func (x *upvoteServiceListBooksClient) Recv() (*ListBooksResponse, error) {
-	m := new(ListBooksResponse)
+func (x *upvoteServiceWatchBookClient) Recv() (*WatchBookResponse, error) {
+	m := new(WatchBookResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func (c *upvoteServiceClient) Upvote(ctx context.Context, in *UpvoteRequest, opt
 // All implementations should embed UnimplementedUpvoteServiceServer
 // for forward compatibility
 type UpvoteServiceServer interface {
-	ListBooks(*ListBooksRequest, UpvoteService_ListBooksServer) error
+	WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error
 	Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error)
 }
 
@@ -87,8 +87,8 @@ type UpvoteServiceServer interface {
 type UnimplementedUpvoteServiceServer struct {
 }
 
-func (UnimplementedUpvoteServiceServer) ListBooks(*ListBooksRequest, UpvoteService_ListBooksServer) error {
-	return status.Errorf(codes.Unimplemented, "method ListBooks not implemented")
+func (UnimplementedUpvoteServiceServer) WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchBook not implemented")
 }
 func (UnimplementedUpvoteServiceServer) Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upvote not implemented")
@@ -105,24 +105,24 @@ func RegisterUpvoteServiceServer(s grpc.ServiceRegistrar, srv UpvoteServiceServe
 	s.RegisterService(&UpvoteService_ServiceDesc, srv)
 }
 
-func _UpvoteService_ListBooks_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(ListBooksRequest)
+func _UpvoteService_WatchBook_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(WatchBookRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(UpvoteServiceServer).ListBooks(m, &upvoteServiceListBooksServer{stream})
+	return srv.(UpvoteServiceServer).WatchBook(m, &upvoteServiceWatchBookServer{stream})
 }
 
-type UpvoteService_ListBooksServer interface {
-	Send(*ListBooksResponse) error
+type UpvoteService_WatchBookServer interface {
+	Send(*WatchBookResponse) error
 	grpc.ServerStream
 }
 
-type upvoteServiceListBooksServer struct {
+type upvoteServiceWatchBookServer struct {
 	grpc.ServerStream
 }
 
-func (x *upvoteServiceListBooksServer) Send(m *ListBooksResponse) error {
+func (x *upvoteServiceWatchBookServer) Send(m *WatchBookResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -158,8 +158,8 @@ var UpvoteService_ServiceDesc = grpc.ServiceDesc{
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "ListBooks",
-			Handler:       _UpvoteService_ListBooks_Handler,
+			StreamName:    "WatchBook",
+			Handler:       _UpvoteService_WatchBook_Handler,
 			ServerStreams: true,
 		},
 	},

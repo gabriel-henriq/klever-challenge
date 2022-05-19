@@ -62,7 +62,7 @@ func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.UpvoteRequest)
 
 }
 
-func (s *UpvoteServiceServer) ListBooks(req *pb.ListBooksRequest, stream pb.UpvoteService_ListBooksServer) error {
+func (s *UpvoteServiceServer) WatchBook(req *pb.WatchBookRequest, stream pb.UpvoteService_WatchBookServer) error {
 	title := string(req.GetTitle())
 
 	var waitGroup sync.WaitGroup
@@ -106,7 +106,7 @@ func listenToDBChangeStream(
 	waitGroup sync.WaitGroup,
 	stream *mongo.ChangeStream,
 	collection *mongo.Collection,
-	streamServer pb.UpvoteService_ListBooksServer,
+	streamServer pb.UpvoteService_WatchBookServer,
 ) {
 	// Cleanup defer functions when this function exits
 	defer stream.Close(routineCtx)
@@ -131,7 +131,7 @@ func listenToDBChangeStream(
 		}
 
 		// Send the book to the client
-		streamServer.Send(&pb.ListBooksResponse{
+		streamServer.Send(&pb.WatchBookResponse{
 			Id:     data.ID.Hex(),
 			Title:  data.Title,
 			Author: data.Author,
