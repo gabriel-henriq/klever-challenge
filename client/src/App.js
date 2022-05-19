@@ -1,25 +1,30 @@
 import './App.css';
-import * as grpcWeb from 'grpc-web';
+import { ClientReadableStream, } from 'grpc-web';
 
-import { UpvoteServiceClient } from "./gen/proto/upvote/v1/upvote_grpc_web_pb.js";
-import { ListBooksRequest } from './gen/proto/upvote/v1/upvote_pb.js'
+import { UpvoteServiceClient, } from "./gen/proto/upvote/v1/upvote_grpc_web_pb.js";
+import { WatchBookRequest } from './gen/proto/upvote/v1/upvote_pb.js'
 
 
 const client = new UpvoteServiceClient('http://localhost:8080', null, null);
 
-var request = new ListBooksRequest();
+let stream = ClientReadableStream
 
-request.setTitle("Clean Code");
 
-var stream = client.listBooks(request, {});
+var req = new WatchBookRequest();
+req.setTitle("Clean Code");
 
-stream.on('data', (response) => {
-  console.log(response.getTitle());
+
+stream = client.watchBook(req).on('data', (response) => {
+  let bookTitle = response.getTitle();
+  let bookAuthor = response.getAuthor();
+  let bookUpvotes = response.getLikes();
+  console.log(bookTitle, bookAuthor, bookUpvotes);
+}).on('status', (status) => {
+  console.log(status);
+}).on('end', () => {
+  console.log('end');
 });
 
-stream.on('error', (error) => {
-  console.log(error);
-});
 
 function App() {
 
