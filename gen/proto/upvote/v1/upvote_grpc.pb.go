@@ -22,8 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UpvoteServiceClient interface {
-	WatchBook(ctx context.Context, in *WatchBookRequest, opts ...grpc.CallOption) (UpvoteService_WatchBookClient, error)
+	CreateBook(ctx context.Context, in *CreateBookRequest, opts ...grpc.CallOption) (*CreateBookResponse, error)
 	Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error)
+	WatchBook(ctx context.Context, in *WatchBookRequest, opts ...grpc.CallOption) (UpvoteService_WatchBookClient, error)
 }
 
 type upvoteServiceClient struct {
@@ -32,6 +33,24 @@ type upvoteServiceClient struct {
 
 func NewUpvoteServiceClient(cc grpc.ClientConnInterface) UpvoteServiceClient {
 	return &upvoteServiceClient{cc}
+}
+
+func (c *upvoteServiceClient) CreateBook(ctx context.Context, in *CreateBookRequest, opts ...grpc.CallOption) (*CreateBookResponse, error) {
+	out := new(CreateBookResponse)
+	err := c.cc.Invoke(ctx, "/upvote.v1.UpvoteService/CreateBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upvoteServiceClient) Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error) {
+	out := new(UpvoteResponse)
+	err := c.cc.Invoke(ctx, "/upvote.v1.UpvoteService/Upvote", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *upvoteServiceClient) WatchBook(ctx context.Context, in *WatchBookRequest, opts ...grpc.CallOption) (UpvoteService_WatchBookClient, error) {
@@ -66,32 +85,27 @@ func (x *upvoteServiceWatchBookClient) Recv() (*WatchBookResponse, error) {
 	return m, nil
 }
 
-func (c *upvoteServiceClient) Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error) {
-	out := new(UpvoteResponse)
-	err := c.cc.Invoke(ctx, "/upvote.v1.UpvoteService/Upvote", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UpvoteServiceServer is the server API for UpvoteService service.
 // All implementations should embed UnimplementedUpvoteServiceServer
 // for forward compatibility
 type UpvoteServiceServer interface {
-	WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error
+	CreateBook(context.Context, *CreateBookRequest) (*CreateBookResponse, error)
 	Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error)
+	WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error
 }
 
 // UnimplementedUpvoteServiceServer should be embedded to have forward compatible implementations.
 type UnimplementedUpvoteServiceServer struct {
 }
 
-func (UnimplementedUpvoteServiceServer) WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error {
-	return status.Errorf(codes.Unimplemented, "method WatchBook not implemented")
+func (UnimplementedUpvoteServiceServer) CreateBook(context.Context, *CreateBookRequest) (*CreateBookResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateBook not implemented")
 }
 func (UnimplementedUpvoteServiceServer) Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upvote not implemented")
+}
+func (UnimplementedUpvoteServiceServer) WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error {
+	return status.Errorf(codes.Unimplemented, "method WatchBook not implemented")
 }
 
 // UnsafeUpvoteServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -103,6 +117,42 @@ type UnsafeUpvoteServiceServer interface {
 
 func RegisterUpvoteServiceServer(s grpc.ServiceRegistrar, srv UpvoteServiceServer) {
 	s.RegisterService(&UpvoteService_ServiceDesc, srv)
+}
+
+func _UpvoteService_CreateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateBookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpvoteServiceServer).CreateBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.v1.UpvoteService/CreateBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpvoteServiceServer).CreateBook(ctx, req.(*CreateBookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UpvoteService_Upvote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpvoteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpvoteServiceServer).Upvote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.v1.UpvoteService/Upvote",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpvoteServiceServer).Upvote(ctx, req.(*UpvoteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _UpvoteService_WatchBook_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -126,24 +176,6 @@ func (x *upvoteServiceWatchBookServer) Send(m *WatchBookResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _UpvoteService_Upvote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpvoteRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UpvoteServiceServer).Upvote(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/upvote.v1.UpvoteService/Upvote",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UpvoteServiceServer).Upvote(ctx, req.(*UpvoteRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // UpvoteService_ServiceDesc is the grpc.ServiceDesc for UpvoteService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -151,6 +183,10 @@ var UpvoteService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "upvote.v1.UpvoteService",
 	HandlerType: (*UpvoteServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateBook",
+			Handler:    _UpvoteService_CreateBook_Handler,
+		},
 		{
 			MethodName: "Upvote",
 			Handler:    _UpvoteService_Upvote_Handler,

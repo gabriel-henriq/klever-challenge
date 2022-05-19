@@ -8,10 +8,12 @@ export class UpvoteServiceClient {
                credentials?: null | { [index: string]: string; },
                options?: null | { [index: string]: any; });
 
-  watchBook(
-    request: proto_upvote_v1_upvote_pb.WatchBookRequest,
-    metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.WatchBookResponse>;
+  createBook(
+    request: proto_upvote_v1_upvote_pb.CreateBookRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.RpcError,
+               response: proto_upvote_v1_upvote_pb.CreateBookResponse) => void
+  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.CreateBookResponse>;
 
   upvote(
     request: proto_upvote_v1_upvote_pb.UpvoteRequest,
@@ -20,6 +22,11 @@ export class UpvoteServiceClient {
                response: proto_upvote_v1_upvote_pb.UpvoteResponse) => void
   ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.UpvoteResponse>;
 
+  watchBook(
+    request: proto_upvote_v1_upvote_pb.WatchBookRequest,
+    metadata?: grpcWeb.Metadata
+  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.WatchBookResponse>;
+
 }
 
 export class UpvoteServicePromiseClient {
@@ -27,15 +34,20 @@ export class UpvoteServicePromiseClient {
                credentials?: null | { [index: string]: string; },
                options?: null | { [index: string]: any; });
 
-  watchBook(
-    request: proto_upvote_v1_upvote_pb.WatchBookRequest,
+  createBook(
+    request: proto_upvote_v1_upvote_pb.CreateBookRequest,
     metadata?: grpcWeb.Metadata
-  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.WatchBookResponse>;
+  ): Promise<proto_upvote_v1_upvote_pb.CreateBookResponse>;
 
   upvote(
     request: proto_upvote_v1_upvote_pb.UpvoteRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<proto_upvote_v1_upvote_pb.UpvoteResponse>;
+
+  watchBook(
+    request: proto_upvote_v1_upvote_pb.WatchBookRequest,
+    metadata?: grpcWeb.Metadata
+  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.WatchBookResponse>;
 
 }
 

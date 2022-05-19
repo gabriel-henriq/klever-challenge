@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"reflect"
 	"sync"
 
 	pb "github.com/gabriel-henriq/klever-challenge/api/gen/proto/upvote/v1"
@@ -22,9 +23,45 @@ type UpvoteServiceServer struct {
 	pb.UnimplementedUpvoteServiceServer
 }
 
+func (s *UpvoteServiceServer) CreateBook(ctx context.Context, req *pb.CreateBookRequest) (*pb.CreateBookResponse, error) {
+
+	// handle title and author request and validate if they are string and throw a error if not
+	title := req.GetTitle()
+	author := req.GetAuthor()
+	if reflect.TypeOf(title).String() != "string" || reflect.TypeOf(author).String() != "string" {
+		return nil, status.Error(codes.InvalidArgument, "title and author must be string")
+	}
+
+	book := models.Book{}
+
+	found := s.Db.FindOne(s.Ctx, bson.D{{Key: "title", Value: title}, {Key: "author", Value: author}}).Decode(&book)
+	if title == book.Title || found == nil {
+		return nil, status.Errorf(codes.AlreadyExists, "Book already exists")
+	}
+
+	book = models.Book{
+		ID:     primitive.NewObjectID(),
+		Title:  title,
+		Author: author,
+		Likes:  0,
+	}
+
+	_, err := s.Db.InsertOne(s.Ctx, book)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "Error creating book")
+	}
+
+	return &pb.CreateBookResponse{
+		BookId: book.ID.Hex(),
+		Title:  book.Title,
+		Author: book.Author,
+	}, nil
+
+}
+
 func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.UpvoteRequest) (*pb.UpvoteResponse, error) {
 
-	id, err := primitive.ObjectIDFromHex(req.Id)
+	id, err := primitive.ObjectIDFromHex(req.BookId)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Invalid id: %v", err))
 	}
@@ -37,7 +74,7 @@ func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.UpvoteRequest)
 	if cursor == nil {
 		return nil, status.Errorf(
 			codes.NotFound,
-			fmt.Sprintf("This title does not exists in database %s", req.GetId()),
+			fmt.Sprintf("This title does not exists in database %s", req.GetBookId()),
 		)
 	}
 
@@ -49,12 +86,12 @@ func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.UpvoteRequest)
 	if err != nil {
 		return nil, status.Errorf(
 			codes.NotFound,
-			fmt.Sprintf("This title does not exists in database %s", req.GetId()),
+			fmt.Sprintf("This title does not exists in database %s", req.GetBookId()),
 		)
 	}
 
 	return &pb.UpvoteResponse{
-		Id:     data.ID.Hex(),
+		BookId: data.ID.Hex(),
 		Title:  data.Title,
 		Author: data.Author,
 		Likes:  data.Likes,
@@ -132,7 +169,7 @@ func listenToDBChangeStream(
 
 		// Send the book to the client
 		streamServer.Send(&pb.WatchBookResponse{
-			Id:     data.ID.Hex(),
+			BookId: data.ID.Hex(),
 			Title:  data.Title,
 			Author: data.Author,
 			Likes:  data.Likes,

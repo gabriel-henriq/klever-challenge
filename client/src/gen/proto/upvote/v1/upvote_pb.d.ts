@@ -2,9 +2,57 @@ import * as jspb from 'google-protobuf'
 
 
 
+export class CreateBookRequest extends jspb.Message {
+  getTitle(): string;
+  setTitle(value: string): CreateBookRequest;
+
+  getAuthor(): string;
+  setAuthor(value: string): CreateBookRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBookRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBookRequest): CreateBookRequest.AsObject;
+  static serializeBinaryToWriter(message: CreateBookRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBookRequest;
+  static deserializeBinaryFromReader(message: CreateBookRequest, reader: jspb.BinaryReader): CreateBookRequest;
+}
+
+export namespace CreateBookRequest {
+  export type AsObject = {
+    title: string,
+    author: string,
+  }
+}
+
+export class CreateBookResponse extends jspb.Message {
+  getBookId(): string;
+  setBookId(value: string): CreateBookResponse;
+
+  getTitle(): string;
+  setTitle(value: string): CreateBookResponse;
+
+  getAuthor(): string;
+  setAuthor(value: string): CreateBookResponse;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): CreateBookResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: CreateBookResponse): CreateBookResponse.AsObject;
+  static serializeBinaryToWriter(message: CreateBookResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): CreateBookResponse;
+  static deserializeBinaryFromReader(message: CreateBookResponse, reader: jspb.BinaryReader): CreateBookResponse;
+}
+
+export namespace CreateBookResponse {
+  export type AsObject = {
+    bookId: string,
+    title: string,
+    author: string,
+  }
+}
+
 export class UpvoteRequest extends jspb.Message {
-  getId(): string;
-  setId(value: string): UpvoteRequest;
+  getBookId(): string;
+  setBookId(value: string): UpvoteRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): UpvoteRequest.AsObject;
@@ -16,13 +64,13 @@ export class UpvoteRequest extends jspb.Message {
 
 export namespace UpvoteRequest {
   export type AsObject = {
-    id: string,
+    bookId: string,
   }
 }
 
 export class UpvoteResponse extends jspb.Message {
-  getId(): string;
-  setId(value: string): UpvoteResponse;
+  getBookId(): string;
+  setBookId(value: string): UpvoteResponse;
 
   getTitle(): string;
   setTitle(value: string): UpvoteResponse;
@@ -43,7 +91,7 @@ export class UpvoteResponse extends jspb.Message {
 
 export namespace UpvoteResponse {
   export type AsObject = {
-    id: string,
+    bookId: string,
     title: string,
     author: string,
     likes: number,
@@ -69,8 +117,8 @@ export namespace WatchBookRequest {
 }
 
 export class WatchBookResponse extends jspb.Message {
-  getId(): string;
-  setId(value: string): WatchBookResponse;
+  getBookId(): string;
+  setBookId(value: string): WatchBookResponse;
 
   getTitle(): string;
   setTitle(value: string): WatchBookResponse;
@@ -91,7 +139,7 @@ export class WatchBookResponse extends jspb.Message {
 
 export namespace WatchBookResponse {
   export type AsObject = {
-    id: string,
+    bookId: string,
     title: string,
     author: string,
     likes: number,
