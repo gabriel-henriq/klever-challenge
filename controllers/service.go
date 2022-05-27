@@ -99,6 +99,61 @@ func (s *UpvoteServiceServer) Upvote(ctx context.Context, req *pb.UpvoteRequest)
 
 }
 
+// decrements when has vote and increment own downvotes when does not exits
+
+func (s *UpvoteServiceServer) Downvote(ctx context.Context, req *pb.DownvoteRequest) (*pb.DownvoteResponse, error) {
+
+	id, err := primitive.ObjectIDFromHex(req.BookId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, fmt.Sprintf("Invalid id: %v", err))
+	}
+
+	likes := models.Book{
+		ID:      id,
+		Unlikes: 0,
+	}
+
+	verifyLikes := s.Db.FindOne(s.Ctx, bson.D{{Key: "_id", Value: id}})
+
+	verifyLikes.Decode(&likes)
+
+	if likes.Likes == 0 {
+
+		cursor := s.Db.FindOneAndUpdate(
+			s.Ctx,
+			bson.D{{Key: "_id", Value: id}},
+			bson.D{{Key: "$inc", Value: bson.D{{Key: "unlikes", Value: 1}}}})
+
+		if cursor == nil {
+			return nil, status.Errorf(
+				codes.NotFound,
+				fmt.Sprintf("Not found %s", req.GetBookId()),
+			)
+		}
+	} else {
+
+		cursor := s.Db.FindOneAndUpdate(
+			s.Ctx,
+			bson.D{{Key: "_id", Value: id}},
+			bson.D{{Key: "$inc", Value: bson.D{{Key: "likes", Value: -1}}}})
+
+		if cursor == nil {
+			return nil, status.Errorf(
+				codes.NotFound,
+				fmt.Sprintf("Not found %s", req.GetBookId()),
+			)
+		}
+	}
+
+	return &pb.DownvoteResponse{
+		BookId:  likes.ID.Hex(),
+		Title:   likes.Title,
+		Author:  likes.Author,
+		Likes:   likes.Likes,
+		Unlikes: likes.Unlikes,
+	}, nil
+}
+
 func (s *UpvoteServiceServer) WatchBook(req *pb.WatchBookRequest, stream pb.UpvoteService_WatchBookServer) error {
 	title := string(req.GetTitle())
 

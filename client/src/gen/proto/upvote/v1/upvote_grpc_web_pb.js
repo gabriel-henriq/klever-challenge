@@ -196,6 +196,67 @@ proto.upvote.v1.UpvoteServicePromiseClient.prototype.upvote =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
+ *   !proto.upvote.v1.DownvoteRequest,
+ *   !proto.upvote.v1.DownvoteResponse>}
+ */
+const methodDescriptor_UpvoteService_Downvote = new grpc.web.MethodDescriptor(
+  '/upvote.v1.UpvoteService/Downvote',
+  grpc.web.MethodType.UNARY,
+  proto.upvote.v1.DownvoteRequest,
+  proto.upvote.v1.DownvoteResponse,
+  /**
+   * @param {!proto.upvote.v1.DownvoteRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.upvote.v1.DownvoteResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.upvote.v1.DownvoteRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.upvote.v1.DownvoteResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.upvote.v1.DownvoteResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.upvote.v1.UpvoteServiceClient.prototype.downvote =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/upvote.v1.UpvoteService/Downvote',
+      request,
+      metadata || {},
+      methodDescriptor_UpvoteService_Downvote,
+      callback);
+};
+
+
+/**
+ * @param {!proto.upvote.v1.DownvoteRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.upvote.v1.DownvoteResponse>}
+ *     Promise that resolves to the response
+ */
+proto.upvote.v1.UpvoteServicePromiseClient.prototype.downvote =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/upvote.v1.UpvoteService/Downvote',
+      request,
+      metadata || {},
+      methodDescriptor_UpvoteService_Downvote);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
  *   !proto.upvote.v1.WatchBookRequest,
  *   !proto.upvote.v1.WatchBookResponse>}
  */

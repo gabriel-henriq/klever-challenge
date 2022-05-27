@@ -22,6 +22,13 @@ export class UpvoteServiceClient {
                response: proto_upvote_v1_upvote_pb.UpvoteResponse) => void
   ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.UpvoteResponse>;
 
+  downvote(
+    request: proto_upvote_v1_upvote_pb.DownvoteRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.RpcError,
+               response: proto_upvote_v1_upvote_pb.DownvoteResponse) => void
+  ): grpcWeb.ClientReadableStream<proto_upvote_v1_upvote_pb.DownvoteResponse>;
+
   watchBook(
     request: proto_upvote_v1_upvote_pb.WatchBookRequest,
     metadata?: grpcWeb.Metadata
@@ -43,6 +50,11 @@ export class UpvoteServicePromiseClient {
     request: proto_upvote_v1_upvote_pb.UpvoteRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<proto_upvote_v1_upvote_pb.UpvoteResponse>;
+
+  downvote(
+    request: proto_upvote_v1_upvote_pb.DownvoteRequest,
+    metadata?: grpcWeb.Metadata
+  ): Promise<proto_upvote_v1_upvote_pb.DownvoteResponse>;
 
   watchBook(
     request: proto_upvote_v1_upvote_pb.WatchBookRequest,

@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type UpvoteServiceClient interface {
 	CreateBook(ctx context.Context, in *CreateBookRequest, opts ...grpc.CallOption) (*CreateBookResponse, error)
 	Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error)
+	Downvote(ctx context.Context, in *DownvoteRequest, opts ...grpc.CallOption) (*DownvoteResponse, error)
 	WatchBook(ctx context.Context, in *WatchBookRequest, opts ...grpc.CallOption) (UpvoteService_WatchBookClient, error)
 }
 
@@ -47,6 +48,15 @@ func (c *upvoteServiceClient) CreateBook(ctx context.Context, in *CreateBookRequ
 func (c *upvoteServiceClient) Upvote(ctx context.Context, in *UpvoteRequest, opts ...grpc.CallOption) (*UpvoteResponse, error) {
 	out := new(UpvoteResponse)
 	err := c.cc.Invoke(ctx, "/upvote.v1.UpvoteService/Upvote", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *upvoteServiceClient) Downvote(ctx context.Context, in *DownvoteRequest, opts ...grpc.CallOption) (*DownvoteResponse, error) {
+	out := new(DownvoteResponse)
+	err := c.cc.Invoke(ctx, "/upvote.v1.UpvoteService/Downvote", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -91,6 +101,7 @@ func (x *upvoteServiceWatchBookClient) Recv() (*WatchBookResponse, error) {
 type UpvoteServiceServer interface {
 	CreateBook(context.Context, *CreateBookRequest) (*CreateBookResponse, error)
 	Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error)
+	Downvote(context.Context, *DownvoteRequest) (*DownvoteResponse, error)
 	WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error
 }
 
@@ -103,6 +114,9 @@ func (UnimplementedUpvoteServiceServer) CreateBook(context.Context, *CreateBookR
 }
 func (UnimplementedUpvoteServiceServer) Upvote(context.Context, *UpvoteRequest) (*UpvoteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upvote not implemented")
+}
+func (UnimplementedUpvoteServiceServer) Downvote(context.Context, *DownvoteRequest) (*DownvoteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Downvote not implemented")
 }
 func (UnimplementedUpvoteServiceServer) WatchBook(*WatchBookRequest, UpvoteService_WatchBookServer) error {
 	return status.Errorf(codes.Unimplemented, "method WatchBook not implemented")
@@ -155,6 +169,24 @@ func _UpvoteService_Upvote_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UpvoteService_Downvote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DownvoteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UpvoteServiceServer).Downvote(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/upvote.v1.UpvoteService/Downvote",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UpvoteServiceServer).Downvote(ctx, req.(*DownvoteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UpvoteService_WatchBook_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(WatchBookRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -190,6 +222,10 @@ var UpvoteService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Upvote",
 			Handler:    _UpvoteService_Upvote_Handler,
+		},
+		{
+			MethodName: "Downvote",
+			Handler:    _UpvoteService_Downvote_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

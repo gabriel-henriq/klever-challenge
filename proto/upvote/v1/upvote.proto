@@ -7,6 +7,7 @@ option go_package = "/upvotev1";
 service UpvoteService {
   rpc CreateBook(CreateBookRequest) returns (CreateBookResponse) {}
   rpc Upvote(UpvoteRequest) returns (UpvoteResponse) {}
+  rpc Downvote(DownvoteRequest) returns (DownvoteResponse) {}
   rpc WatchBook(WatchBookRequest) returns (stream WatchBookResponse) {}
 }
 
@@ -20,12 +21,22 @@ message CreateBookResponse {
   string author = 3;
 }
 
+message DownvoteRequest { string book_id = 1; }
+message DownvoteResponse {
+  string book_id = 1;
+  string title = 2;
+  string author = 3;
+  int64 likes = 4;
+  int64 unlikes = 5;
+}
+
 message UpvoteRequest { string book_id = 1; }
 message UpvoteResponse {
   string book_id = 1;
   string title = 2;
   string author = 3;
   int64 likes = 4;
+  int64 unlikes = 5;
 }
 
 message WatchBookRequest { string title = 1; }
@@ -34,4 +45,5 @@ message WatchBookResponse {
   string title = 2;
   string author = 3;
   int64 likes = 4;
+  int64 unlikes = 5;
 }

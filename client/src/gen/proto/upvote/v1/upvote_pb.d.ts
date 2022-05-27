@@ -50,6 +50,58 @@ export namespace CreateBookResponse {
   }
 }
 
+export class DownvoteRequest extends jspb.Message {
+  getBookId(): string;
+  setBookId(value: string): DownvoteRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DownvoteRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DownvoteRequest): DownvoteRequest.AsObject;
+  static serializeBinaryToWriter(message: DownvoteRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DownvoteRequest;
+  static deserializeBinaryFromReader(message: DownvoteRequest, reader: jspb.BinaryReader): DownvoteRequest;
+}
+
+export namespace DownvoteRequest {
+  export type AsObject = {
+    bookId: string,
+  }
+}
+
+export class DownvoteResponse extends jspb.Message {
+  getBookId(): string;
+  setBookId(value: string): DownvoteResponse;
+
+  getTitle(): string;
+  setTitle(value: string): DownvoteResponse;
+
+  getAuthor(): string;
+  setAuthor(value: string): DownvoteResponse;
+
+  getLikes(): number;
+  setLikes(value: number): DownvoteResponse;
+
+  getUnlikes(): number;
+  setUnlikes(value: number): DownvoteResponse;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DownvoteResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DownvoteResponse): DownvoteResponse.AsObject;
+  static serializeBinaryToWriter(message: DownvoteResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DownvoteResponse;
+  static deserializeBinaryFromReader(message: DownvoteResponse, reader: jspb.BinaryReader): DownvoteResponse;
+}
+
+export namespace DownvoteResponse {
+  export type AsObject = {
+    bookId: string,
+    title: string,
+    author: string,
+    likes: number,
+    unlikes: number,
+  }
+}
+
 export class UpvoteRequest extends jspb.Message {
   getBookId(): string;
   setBookId(value: string): UpvoteRequest;
@@ -81,6 +133,9 @@ export class UpvoteResponse extends jspb.Message {
   getLikes(): number;
   setLikes(value: number): UpvoteResponse;
 
+  getUnlikes(): number;
+  setUnlikes(value: number): UpvoteResponse;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): UpvoteResponse.AsObject;
   static toObject(includeInstance: boolean, msg: UpvoteResponse): UpvoteResponse.AsObject;
@@ -95,6 +150,7 @@ export namespace UpvoteResponse {
     title: string,
     author: string,
     likes: number,
+    unlikes: number,
   }
 }
 
@@ -129,6 +185,9 @@ export class WatchBookResponse extends jspb.Message {
   getLikes(): number;
   setLikes(value: number): WatchBookResponse;
 
+  getUnlikes(): number;
+  setUnlikes(value: number): WatchBookResponse;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): WatchBookResponse.AsObject;
   static toObject(includeInstance: boolean, msg: WatchBookResponse): WatchBookResponse.AsObject;
@@ -143,6 +202,7 @@ export namespace WatchBookResponse {
     title: string,
     author: string,
     likes: number,
+    unlikes: number,
   }
 }
 
